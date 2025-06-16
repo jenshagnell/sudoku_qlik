@@ -116,7 +116,7 @@ bool SudokuGrader::findHiddenSingle() {
       if(0 == sudokuGridMatrix[row][col]) {
         for(int digit = 1; digit <= SudokuConst::SIZE; ++digit) {
           uint16_t bit = (1 << (digit - 1));
-          if(!(digit & bit)) {
+          if(!(allowedMasks[row][col] & bit)) {
             continue;
           }
           size_t rowCount = 0;

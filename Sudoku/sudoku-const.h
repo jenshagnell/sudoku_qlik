@@ -32,6 +32,8 @@ public:
   static constexpr size_t SIZE = 9;
   static constexpr size_t SIZE_INDEX = SIZE - 1;
   static constexpr size_t BOX_SIZE = 3;
+  static constexpr size_t BOX_SIZE_DOUBLE = 2 * BOX_SIZE;
+  static constexpr size_t BOX_SIZE_DOUBLE_INDEX = BOX_SIZE_DOUBLE - 1;
   static constexpr size_t NBR_OF_CELLS = SIZE * SIZE;
   static constexpr size_t MIDDLE_CELL_INDEX = SIZE / 2;
 
@@ -63,7 +65,7 @@ public:
   };
   static constexpr size_t GRADE_LIMIT_LOWER = 0;
   static constexpr size_t GRADE_LIMIT_UPPER = 1;
-  static constexpr size_t GRADE_LIMITS[4][2] = { {300, 320}, {320, 340}, {340, 350}, {350, 360} };
+  static constexpr size_t GRADE_LIMITS[4][2] = { {300, 315}, {315, 330}, {330, 345}, {345, 360} };
 
   static constexpr std::array<int, SIZE> BASE_DIGITS = generateBaseDigits<SIZE>();
 };

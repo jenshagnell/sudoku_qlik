@@ -7,7 +7,6 @@
 SudokuWorker::SudokuWorker() {}
 
 void SudokuWorker::run(std::atomic<bool>& done) {
-  size_t iterations = 0;
   bool doneLocal = false;
   do {
     if(done.load()) {
@@ -20,7 +19,6 @@ void SudokuWorker::run(std::atomic<bool>& done) {
       sudokuSolutionSolved = sudokuGenerator.getSolutionSolved();
       done.store(true);
     }
-    ++iterations;
   } while(!doneLocal);
 }
 

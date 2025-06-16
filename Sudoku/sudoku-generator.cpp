@@ -81,8 +81,8 @@ void SudokuGenerator::removeCellValues() {
     matrix[SudokuConst::MIDDLE_CELL_INDEX][SudokuConst::MIDDLE_CELL_INDEX] = 0;
     --rmCells;
   }
-  std::uniform_int_distribution<int> rowDist(0, 4);
-  std::uniform_int_distribution<int> colDist(0, SudokuConst::SIZE - 1);
+  std::uniform_int_distribution<int> rowDist(0, SudokuConst::MIDDLE_CELL_INDEX);
+  std::uniform_int_distribution<int> colDist(0, SudokuConst::SIZE_INDEX);
   while(rmCells > 0) {
     size_t row, col;
     do {
@@ -90,24 +90,24 @@ void SudokuGenerator::removeCellValues() {
       col = colDist(randomGenerator);
     } while (row == SudokuConst::MIDDLE_CELL_INDEX && col == SudokuConst::MIDDLE_CELL_INDEX || 0 == matrix[row][col]);
     if (SudokuConst::MIDDLE_CELL_INDEX == row) {
-      size_t mirroredCol = SudokuConst::SIZE - col - 1;
+      size_t mirroredCol = SudokuConst::SIZE_INDEX - col;
       matrix[row][col] = 0;
       matrix[row][mirroredCol] = 0;
       matrix[col][row] = 0;
       matrix[mirroredCol][row] = 0;
     }
     else if (SudokuConst::MIDDLE_CELL_INDEX == col) {
-      size_t mirroredRow = SudokuConst::SIZE - row - 1;
+      size_t mirroredRow = SudokuConst::SIZE_INDEX - row;
       matrix[row][col] = 0;
       matrix[mirroredRow][col] = 0;
       matrix[col][row] = 0;
       matrix[col][mirroredRow] = 0;
     }
     else if(4 == SudokuConst::BOX_MATRIX[row][col]) {
-      size_t localRow = row - 3;
-      size_t localCol = col - 3;
-      size_t mirroredRow = 5 - localRow;
-      size_t mirroredCol = 5 - localCol;
+      size_t localRow = row - SudokuConst::BOX_SIZE;
+      size_t localCol = col - SudokuConst::BOX_SIZE;
+      size_t mirroredRow = SudokuConst::BOX_SIZE_DOUBLE_INDEX - localRow;
+      size_t mirroredCol = SudokuConst::BOX_SIZE_DOUBLE_INDEX - localCol;
       matrix[row][col] = 0;
       matrix[mirroredRow][col] = 0;
       matrix[row][mirroredCol] = 0;

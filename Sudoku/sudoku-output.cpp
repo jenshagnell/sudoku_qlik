@@ -31,7 +31,7 @@ std::cout << solvedFromStart << " solved from start." << std::endl;
   std::cout << solvedNakedSingles << " naked singles found." << std::endl;
   std::cout << solvedHiddenSingles << " hidden singles found." << std::endl;
   std::cout << solvedCheated << " copies from solution done." << std::endl;
-  std::cout << recursionDepthFound << std::endl;
+  std::cout << recursionDepthFound << " recursion depth." << std::endl;
 }
 
 void SudokuOutput::printAnalyzeHeading() {
