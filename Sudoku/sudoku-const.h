@@ -50,13 +50,12 @@ public:
   };
   static constexpr size_t BOX_START_ROW[SIZE] = {0, 0, 0, 3, 3, 3, 6, 6, 6}; // std::array ???
   static constexpr size_t BOX_START_COL[SIZE] = {0, 3, 6, 0, 3, 6, 0, 3, 6}; // std::array ???
+  static constexpr int FULL_MASK = (1 << SudokuConst::SIZE) - 1;
 
   static constexpr size_t GRADE_EASY = 0;
   static constexpr size_t GRADE_MEDIUM = 1;
   static constexpr size_t GRADE_HARD = 2;
   static constexpr size_t GRADE_SAMURAI = 3;
-  // FOR EASY & MEDIUM Must be divisible by 4.
-  // FOR HARD & SAMURAI Must be divisible by 2.
   static constexpr size_t KEEP_CELLS_GRADE[4] = {
     NBR_OF_CELLS - ENSURE_DIVISION_WITH_4<24>(),
     NBR_OF_CELLS - ENSURE_DIVISION_WITH_4<28>(),
@@ -65,7 +64,7 @@ public:
   };
   static constexpr size_t GRADE_LIMIT_LOWER = 0;
   static constexpr size_t GRADE_LIMIT_UPPER = 1;
-  static constexpr size_t GRADE_LIMITS[4][2] = { {300, 315}, {315, 330}, {330, 345}, {345, 360} };
+  static constexpr size_t GRADE_LIMITS[4][2] = { {0, 210}, {210, 310}, {310, 335}, {335, 400} };
 
   static constexpr std::array<int, SIZE> BASE_DIGITS = generateBaseDigits<SIZE>();
 };

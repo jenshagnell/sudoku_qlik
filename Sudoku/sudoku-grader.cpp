@@ -1,7 +1,7 @@
 
 #include"sudoku-const.h"
 #include"sudoku-grader.h"
-#ifdef _VEBOSE
+#ifdef _VERBOSE
 #include"sudoku-output.h"
 #endif
 #include"sudoku-solution.h"
@@ -36,24 +36,24 @@ double SudokuGrader::run() {
       }
     }
   }
-#ifdef _VEBOSE
-  SudokuOutput::printGradingData(solvedDigits, solvedFromStart, solvedNakedSingles, solvedHiddenSingles, solvedCheated, sudokuSolution->recursionDepthFound);
+  double grade = (SudokuConst::NBR_OF_CELLS - solvedFromStart) + 2.0 * solvedNakedSingles + 3.0 * solvedHiddenSingles + 20 * solvedCheated + sudokuSolution->recursionDepthFound;
+#ifdef _VERBOSE
+  SudokuOutput::printGradingData(solvedDigits, solvedFromStart, solvedNakedSingles, solvedHiddenSingles, solvedCheated, sudokuSolution->recursionDepthFound, grade);
 #endif
-  double grade = 2 * (1.5 * (81 - solvedFromStart) + 1.0 * solvedNakedSingles + 1.0 * solvedHiddenSingles + 1.5 * solvedCheated) + sudokuSolution->recursionDepthFound;
   return grade;
 }
 
 void SudokuGrader::findAllowedValues(size_t rowPos, size_t colPos) {
   auto& sudokuGridMatrix = sudokuGrid.matrix;
-  uint16_t allowedMask = 0;
+  uint16_t usedMask = 0;
   for(size_t row = 0; row < SudokuConst::SIZE; ++row) {
     if(0 != sudokuGridMatrix[row][colPos]) {
-      allowedMask |= (1 << (sudokuGridMatrix[row][colPos] - 1));
+      usedMask |= (1 << (sudokuGridMatrix[row][colPos] - 1));
     }
   }
   for(size_t col = 0; col < SudokuConst::SIZE; ++col) {
     if(0 != sudokuGridMatrix[rowPos][col]) {
-      allowedMask |= (1 << (sudokuGridMatrix[rowPos][col] - 1));
+      usedMask |= (1 << (sudokuGridMatrix[rowPos][col] - 1));
     }
   }
   size_t boxId = SudokuConst::BOX_MATRIX[rowPos][colPos];
@@ -62,11 +62,11 @@ void SudokuGrader::findAllowedValues(size_t rowPos, size_t colPos) {
   for(size_t i = 0; i < SudokuConst::BOX_SIZE; ++i) {
     for(size_t j = 0; j < SudokuConst::BOX_SIZE; ++j) {
       if(0 != sudokuGridMatrix[boxStartR + i][boxStartC + j]) {
-        allowedMask |= (1 << (sudokuGridMatrix[boxStartR + i][boxStartC + j] - 1));
+        usedMask |= (1 << (sudokuGridMatrix[boxStartR + i][boxStartC + j] - 1));
       }
     }
   }
-  allowedMasks[rowPos][colPos] = allowedMask;
+  allowedMasks[rowPos][colPos] = SudokuConst::FULL_MASK & ~usedMask;
 }
 
 void SudokuGrader::updateAllowedMasks(size_t row, size_t col, int value) {
